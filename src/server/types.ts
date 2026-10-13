@@ -93,6 +93,7 @@ export interface Order {
   createdAt: string;
   customer: { name: string; email: string };
   shipping: Address & { method: ShippingMethod };
+  delivery: { minDays: number; maxDays: number };
   lines: PricedLine[];
   subtotalCents: number;
   shippingCents: number;
