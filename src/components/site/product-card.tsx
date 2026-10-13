@@ -67,7 +67,7 @@ export function ProductCard({ product: p, priority, className }: { product: Prod
       </div>
       <div className="flex items-start justify-between gap-3 px-2 pt-4">
         <div className="min-w-0">
-          <h3 className="truncate text-lg font-medium leading-tight tracking-[-0.01em]">
+          <h3 className="line-clamp-2 text-[1.05rem] sm:text-lg font-medium leading-tight tracking-[-0.01em]">
             <Link href={`/product/${p.slug}`} className="after:absolute after:inset-0 after:z-10 after:rounded-[2rem] after:content-['']">
               {p.name}
             </Link>

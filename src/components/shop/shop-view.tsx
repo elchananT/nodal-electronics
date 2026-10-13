@@ -169,10 +169,15 @@ export function ShopView() {
           <span>{money(range[0] * 100, true)}</span>
           <span>{money(range[1] * 100, true)}</span>
         </div>
-        <div className="relative">
+        <div className="relative h-6">
+          <div className="absolute inset-x-0 top-[10.5px] h-[3px] rounded-full bg-cream/15" />
+          <div
+            className="absolute top-[10.5px] h-[3px] rounded-full bg-gradient-to-r from-plasma to-arc"
+            style={{ left: `${((range[0] - lo) / Math.max(hi - lo, 1)) * 100}%`, right: `${100 - ((range[1] - lo) / Math.max(hi - lo, 1)) * 100}%` }}
+          />
           <input type="range" className="range" min={lo} max={hi} step={10} value={range[0]} aria-label="Minimum price"
             onChange={(e) => onRange([Math.min(Number(e.target.value), range[1] - 10), range[1]])} />
-          <input type="range" className="range -mt-3" min={lo} max={hi} step={10} value={range[1]} aria-label="Maximum price"
+          <input type="range" className="range" min={lo} max={hi} step={10} value={range[1]} aria-label="Maximum price"
             onChange={(e) => onRange([range[0], Math.max(Number(e.target.value), range[0] + 10)])} />
         </div>
       </div>

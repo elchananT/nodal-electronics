@@ -59,7 +59,7 @@ export function Hero() {
         transition={{ duration: 2, delay: 0.2, ease }}
         className="absolute left-1/2 top-[4rem] z-0 size-[min(112vw,520px)] -translate-x-1/2 md:left-auto md:right-[-4%] md:top-[2rem] md:size-[min(60vw,820px)] md:translate-x-0 lg:right-[-1%]"
       >
-        <div className="pointer-events-none absolute inset-0 max-md:opacity-50">
+        <div className="pointer-events-none absolute inset-0 max-md:opacity-40">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/brand/atmosphere.webp"
@@ -71,7 +71,7 @@ export function Hero() {
           />
         </div>
         <div className="pointer-events-none absolute inset-[26%] rounded-full bg-[radial-gradient(circle,rgba(46,168,255,0.28),transparent_68%)]" />
-        <LazyOrb className="relative h-full w-full max-md:opacity-45" />
+        <LazyOrb className="relative h-full w-full max-md:opacity-35" />
       </motion.div>
 
       <div className="pointer-events-none relative mx-auto grid max-w-[1440px] items-center gap-6 px-6 md:px-12 lg:min-h-[calc(100svh-9rem)] lg:grid-cols-[1.05fr_1fr]">
@@ -141,7 +141,7 @@ export function Hero() {
             initial={{ opacity: 0.01, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.35, ease }}
-            className="mt-8 max-w-[31rem] text-lg leading-relaxed text-cream/75 md:text-xl"
+            className="mt-8 max-w-[31rem] text-lg leading-relaxed text-cream/85 md:text-xl md:text-cream/75"
           >
             {SITE.description}
           </motion.p>
