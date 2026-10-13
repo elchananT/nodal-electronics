@@ -14,7 +14,11 @@ export class StockConflictError extends Error {
   readonly lines: { productId: string; slug: string; name: string; requested: number; available: number }[];
 
   constructor(lines: StockConflictError["lines"]) {
-    super("Some items no longer have enough stock");
+    super(
+      `Not enough stock: ${lines
+        .map((line) => `${line.name} (wanted ${line.requested}, ${line.available} left)`)
+        .join("; ")}`,
+    );
     this.name = "StockConflictError";
     this.lines = lines;
   }
