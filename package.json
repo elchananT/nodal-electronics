@@ -8,7 +8,8 @@
     "start": "next start -p 3103",
     "lint": "eslint",
     "db:migrate": "prisma migrate dev",
-    "db:seed": "tsx --env-file=.env prisma/seed.ts"
+    "db:seed": "tsx --env-file=.env prisma/seed.ts",
+    "test:api": "tsx --test tests/*.test.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
