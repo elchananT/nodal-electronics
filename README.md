@@ -7,6 +7,7 @@ An animated electronics store: catalog, search, filters, product pages, compare,
 
 ```bash
 npm install
+cp .env.example .env
 npx prisma migrate deploy && npm run db:seed   # SQLite at prisma/dev.db
 npm run dev        # http://localhost:3103
 npm run build && npm run start

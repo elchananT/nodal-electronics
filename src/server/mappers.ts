@@ -64,7 +64,7 @@ export function toProduct(row: ProductRowWithCategory): Product {
   };
   if (row.compareAtCents !== null) product.compareAtCents = row.compareAtCents;
   const badge = parseBadge(row.badge);
-  if (badge) product.badge = badge;
+  if (badge && !(badge === "Low stock" && row.stock <= 0)) product.badge = badge;
   if (row.batteryHours !== null) product.battery = { hours: row.batteryHours };
   if (row.weightGrams !== null) product.weightGrams = row.weightGrams;
   return product;

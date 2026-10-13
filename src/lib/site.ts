@@ -34,7 +34,7 @@ export const PROCESS_STEPS = [
     img: "/process/process-1.webp",
     title: "Read the sheet",
     serif: "before the photo",
-    body: "Battery hours, grams, ports and storage sit on every product page, laid out the same way for every product.",
+    body: "Every product page lists its specs in the same order, so two products are easy to compare side by side.",
     out: ["same table, every product"],
   },
   {
@@ -50,7 +50,7 @@ export const PROCESS_STEPS = [
     img: "/process/process-3.webp",
     title: "Weigh and measure",
     serif: "what you carry",
-    body: "Weight and battery life are first-class filters, not footnotes. Sort the whole shop by battery.",
+    body: "Battery life is more than a footnote: sort the whole shop by battery hours, and compare weight side by side.",
     out: ["sort by battery"],
   },
   {

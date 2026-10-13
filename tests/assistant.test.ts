@@ -43,7 +43,7 @@ describe("assistant parser", () => {
 describe("assistant answers", () => {
   it("answers a budget question with real products under the budget", async () => {
     const answer = await assistant.answerMessage("headphones under $200");
-    assert.deepEqual(answer.productSlugs.sort(), ["cairn-speaker", "pebble-buds"]);
+    assert.deepEqual(answer.productSlugs, ["pebble-buds"]);
     assert.match(answer.reply, /Pebble Buds \(\$129\)/);
     assert.match(answer.reply, /\/shop/);
   });
@@ -75,5 +75,12 @@ describe("assistant answers", () => {
     const answer = await assistant.answerMessage("waterproof camera");
     assert.deepEqual(answer.productSlugs, ["orbit-action-cam"]);
     assert.match(answer.reply, /Orbit Action Cam \(\$329\)/);
+  });
+
+  it("keeps headphone questions to headphones and earbuds, not other audio products", async () => {
+    const answer = await assistant.answerMessage("headphones under $300");
+    assert.ok(answer.productSlugs.length > 0);
+    assert.ok(!answer.productSlugs.includes("cairn-speaker"));
+    assert.ok(answer.productSlugs.every((slug) => ["halo-anc-headphones", "pebble-buds"].includes(slug)));
   });
 });

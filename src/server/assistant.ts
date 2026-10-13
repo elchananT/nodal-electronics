@@ -38,6 +38,18 @@ function score(products: Product[], intent: Intent): Scored[] {
     }));
 }
 
+const KINDS: { asked: RegExp; product: RegExp }[] = [
+  { asked: /head ?phones?|earbuds?|earphones?|\bbuds?\b/i, product: /headphone|\bbuds\b|over-ear/i },
+  { asked: /speakers?/i, product: /speaker/i },
+];
+
+function matchesAskedKind(text: string, product: Product): boolean {
+  const asked = KINDS.filter((kind) => kind.asked.test(text));
+  if (asked.length === 0) return true;
+  const haystack = `${product.name} ${product.tagline}`;
+  return asked.some((kind) => kind.product.test(haystack));
+}
+
 function rank(a: Scored, b: Scored): number {
   if (a.nameHit !== b.nameHit) return a.nameHit ? -1 : 1;
   if (a.featureHits.length !== b.featureHits.length) return b.featureHits.length - a.featureHits.length;
@@ -92,7 +104,7 @@ export async function answerMessage(message: string): Promise<AssistantResponse>
     return { reply: intent.greeting ? GREETING_REPLY : FALLBACK_REPLY, productSlugs: [] };
   }
 
-  const candidates = score(products, intent);
+  const candidates = score(products, intent).filter(({ product }) => matchesAskedKind(text, product));
   const withFeatures = candidates.filter(({ featureHits }) => featureHits.length > 0);
   const named = candidates.filter(({ nameHit }) => nameHit);
   const featureFiltered = intent.features.length > 0 && withFeatures.length > 0 ? withFeatures : candidates;

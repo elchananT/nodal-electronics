@@ -10,6 +10,11 @@ export function jsonError(status: number, error: string, details?: unknown): Nex
 }
 
 /** Maps service-layer errors to the shared `{error, details?}` shape. Unknown errors become a generic 500. */
+function isBailoutToPrerender(error: unknown): boolean {
+  const digest = (error as { digest?: unknown } | null)?.digest;
+  return typeof digest === "string" && (digest.startsWith("NEXT_") || digest === "DYNAMIC_SERVER_USAGE");
+}
+
 export function errorResponse(error: unknown): NextResponse {
   if (error instanceof ValidationError) {
     return jsonError(400, "Invalid request", error.issues);
@@ -20,6 +25,7 @@ export function errorResponse(error: unknown): NextResponse {
   if (error instanceof NotFoundError) {
     return jsonError(404, error.message);
   }
+  if (isBailoutToPrerender(error)) throw error;
   console.error(error);
   return jsonError(500, "Something went wrong. Please try again.");
 }
