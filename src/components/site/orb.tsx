@@ -159,7 +159,11 @@ export function Orb({ className }: { className?: string }) {
       pointer.speed = Math.min(1, pointer.speed + Math.hypot(e.clientX - pointer.lx, e.clientY - pointer.ly) / 600);
       pointer.lx = e.clientX; pointer.ly = e.clientY;
     };
-    const onScroll = () => (scrollT = Math.min(1, window.scrollY / window.innerHeight));
+    let lastScroll = 0;
+    const onScroll = () => {
+      scrollT = Math.min(1, window.scrollY / window.innerHeight);
+      lastScroll = performance.now();
+    };
     const onClick = () => {
       pulse = 1;
     };
@@ -185,7 +189,8 @@ export function Orb({ className }: { className?: string }) {
       halo.position.y = root.position.y;
 
 
-      renderer.render(scene, camera);
+      // while the page is actively scrolling, skip frames: the scroll itself stays at 60 fps
+      if (performance.now() - lastScroll > 140) renderer.render(scene, camera);
       if (!reduced && visible) raf = requestAnimationFrame(tick);
     };
     tick();

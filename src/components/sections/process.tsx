@@ -7,8 +7,8 @@ import { PROCESS_STEPS } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 const STYLES = [
-  { cls: "bg-plasma text-ink", sub: "text-ink/75", chip: "bg-ink/10" },
-  { cls: "bg-arc text-ink", sub: "text-ink/75", chip: "bg-ink/10" },
+  { cls: "bg-plasma text-ink", sub: "text-ink/90", chip: "bg-ink/10" },
+  { cls: "bg-arc text-ink", sub: "text-ink/90", chip: "bg-ink/10" },
   { cls: "bg-cream text-ink", sub: "text-ink/70", chip: "bg-ink/[0.07]" },
   { cls: "bg-ink-3 text-cream border border-cream/10", sub: "text-cream/70", chip: "bg-cream/[0.08]" },
 ];
