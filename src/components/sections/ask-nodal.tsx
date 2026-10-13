@@ -23,6 +23,8 @@ const CHIPS = [
   "Something under $100",
 ];
 
+const now = () => Date.now();
+
 type Msg = { id: number; role: "user" | "bot"; text: string; done: boolean; slugs?: string[] };
 
 export function AskNodal() {
@@ -54,7 +56,7 @@ export function AskNodal() {
     setMsgs((m) => [...m, { id: uid, role: "user", text, done: true }]);
     setInput("");
     setThinking(true);
-    const started = Date.now();
+    const started = now();
     let reply = "";
     let slugs: string[] = [];
     try {
@@ -64,7 +66,7 @@ export function AskNodal() {
     } catch (e) {
       reply = e instanceof ApiError && e.status === 0 ? "I can't reach the catalog right now. Please try again in a moment." : "Something went wrong on my side. Try asking again, or browse the shop directly.";
     }
-    const wait = Math.max(0, 1000 - (Date.now() - started));
+    const wait = Math.max(0, 1000 - (now() - started));
     setTimeout(() => {
       setThinking(false);
       setMsgs((m) => [...m, { id: bid, role: "bot", text: "", done: false }]);

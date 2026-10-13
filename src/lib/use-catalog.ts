@@ -11,7 +11,6 @@ export function useCatalog() {
     setError(null);
     getCatalog().then(setItems, (e: Error) => setError(e.message));
   }, []);
-  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(load, [load]);
   return { items, error, retry: load };
 }

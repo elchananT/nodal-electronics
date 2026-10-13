@@ -7,7 +7,10 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 export const LazyBotAvatar = dynamic(() => import("bot-avatars").then((m) => m.BotAvatar), { ssr: false });
 export const LazyOrb = dynamic(() => import("./orb").then((m) => m.Orb), { ssr: false });
 export const LazyMetalBadge = dynamic(() => import("./metal").then((m) => m.NewBadge), { ssr: false });
-export const LazyMetalButton = dynamic(() => import("./metal").then((m) => m.MetalSubmit), { ssr: false });
+export const LazyMetalButton = dynamic(() => import("./metal").then((m) => m.MetalSubmit), {
+  ssr: false,
+  loading: () => <span className="inline-flex h-14 min-w-[17rem] rounded-full border border-cream/15 bg-ink-3" aria-hidden />,
+});
 
 type RIC = (cb: () => void, o?: { timeout: number }) => number;
 

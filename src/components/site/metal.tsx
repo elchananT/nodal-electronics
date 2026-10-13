@@ -29,7 +29,7 @@ export const MetalSubmit = forwardRef<HTMLButtonElement, Props>(function MetalSu
       <button
         type="submit"
         disabled={busy || rest.disabled}
-        className={"inline-flex h-14 w-full items-center justify-center gap-2.5 rounded-full px-9 text-base font-medium text-cream disabled:opacity-70 " + (className ?? "")}
+        className={"inline-flex h-14 min-w-[17rem] items-center justify-center gap-2.5 rounded-full px-9 text-base font-medium text-cream disabled:opacity-70 " + (className ?? "")}
         {...rest}
       >
         {children}
