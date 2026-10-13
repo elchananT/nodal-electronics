@@ -58,7 +58,7 @@ void main(){
   float band = 0.5 + 0.5*sin(vDisp*9.0 + uTime*0.8 + N.y*2.5);
   vec3 hue = mix(arc, plasma, smoothstep(-0.5,0.7,N.x*0.8+N.y*0.4+sin(uTime*0.3)*0.3));
   // a dim, warm interior with light pooling where the surface swells
-  vec3 body = mix(ink, mix(arc, plasma, band), 0.18 + max(vDisp,0.0)*1.8);
+  vec3 body = mix(ink, mix(arc, plasma, band), 0.09 + max(vDisp,0.0)*1.4);
   float core = pow(max(dot(N,V),0.0), 3.0);
   vec3 col = body + hue * core * 0.16;
   col += hue * fres * 1.6;

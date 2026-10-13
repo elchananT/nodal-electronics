@@ -42,33 +42,32 @@ export type ShippingMethod = "standard" | "express";
 
 export type ShippingOption = {
   method: ShippingMethod;
-  label?: string;
-  name?: string;
-  priceCents?: number;
-  costCents?: number;
-  days?: string;
-  eta?: string;
+  label: string;
+  priceCents: number;
+  minDays: number;
+  maxDays: number;
 };
 
 export type OrderLine = {
   productId: string;
-  productName: string;
+  slug: string;
+  name: string;
   unitPriceCents: number;
   quantity: number;
-  slug?: string;
+  lineTotalCents: number;
 };
+
+export type Address = { line1: string; line2?: string; city: string; region: string; postalCode: string; country: string };
 
 export type Order = {
   id: string;
   status: string;
-  customerName?: string;
-  customerEmail?: string;
-  customer?: { name: string; email: string };
-  shipping?: Record<string, string>;
-  method: string;
-  shippingCents: number;
-  subtotalCents: number;
-  totalCents: number;
   createdAt: string;
+  customer: { name: string; email: string };
+  shipping: Address & { method: ShippingMethod };
+  delivery: { minDays: number; maxDays: number };
   lines: OrderLine[];
+  subtotalCents: number;
+  shippingCents: number;
+  totalCents: number;
 };

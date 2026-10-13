@@ -70,12 +70,12 @@ let catalogPromise: Promise<Product[]> | null = null;
 export function getCatalog(): Promise<Product[]> {
   if (!catalogPromise) {
     catalogPromise = (async () => {
-      const first = await getProducts({ sort: "featured", pageSize: 50 });
+      const first = await getProducts({ sort: "featured", pageSize: 48 });
       let items = first.items;
       let page = first.page;
       while (items.length < first.total && page < 10) {
         page += 1;
-        const next = await getProducts({ sort: "featured", pageSize: 50, page });
+        const next = await getProducts({ sort: "featured", pageSize: 48, page });
         if (!next.items.length) break;
         items = items.concat(next.items);
       }
