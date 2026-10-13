@@ -57,7 +57,6 @@ export const PRODUCTS: CatalogProduct[] = [
     tagline: "Over-ear noise cancelling for long days.",
     category: "audio",
     priceCents: 24900,
-    compareAtCents: 27900,
     stock: 24,
     featured: true,
     specs: {
@@ -360,7 +359,6 @@ export const PRODUCTS: CatalogProduct[] = [
     tagline: "5.3K video in a body you can drop.",
     category: "cameras",
     priceCents: 32900,
-    compareAtCents: 37900,
     stock: 22,
     featured: false,
     specs: {

@@ -1,7 +1,13 @@
 node_modules
 .next
-.env*
+.env
+.env.*
 !.env.example
 *.tsbuildinfo
-prisma/dev.db*
+prisma/*.db
+prisma/*.db-journal
+tests/*.db
+*.db
+.playwright-mcp
+AGENTS.md
 .DS_Store
