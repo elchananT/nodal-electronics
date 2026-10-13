@@ -1,0 +1,431 @@
+================================================================================
+  PREMIUM ANIMATED WEBSITE — MASTER PROMPT
+  (every library, how to use each one at its best, the design system,
+   the taste rules, the performance rules and the known bugs)
+================================================================================
+
+HOW TO USE THIS FILE
+  Paste the whole file into Claude Code, Codex, Cursor or any coding agent.
+  Fill in ONLY the "ABOUT MY WEBSITE" block. Everything else is already decided
+  and the agent must follow it.
+
+
+--------------------------------------------------------------------------------
+0. ABOUT MY WEBSITE — FILL THIS IN
+--------------------------------------------------------------------------------
+  What the site is & who it's for:   ____________________________________________
+  Brand name (logo text):             ____________________________________________
+  Hero headline idea:                 ____________________________________________
+  Sections I want:                    ____________________________________________
+  Sections I DON'T want:              ____________________________________________
+  Real facts I can stand behind:      ____________________________________________
+    (projects, numbers, skills — at my honest level only)
+  Links (GitHub / LinkedIn / email):  ____________________________________________
+  Two primary colours (optional):     ____________________________________________
+  Anything else:                      ____________________________________________
+
+
+--------------------------------------------------------------------------------
+1. THE BRIEF — WHAT "DONE" MEANS
+--------------------------------------------------------------------------------
+Build the most beautiful, premium, animated website you can, in a new folder in
+the current directory.
+
+ 1. Award-level and hand-made, never template-like. Lots of animation, lots of
+    rounded corners, lots of detail — but every effect has a reason to be there.
+ 2. Weighted smooth scrolling (Lenis). The page glides a beat after the wheel
+    stops instead of moving 1:1.
+ 3. Palette: two PRIMARY colours carry the brand. Instead of black and white use
+    INK (warm near-black) and CREAM (warm off-white), with 2–3 shades of each.
+    Everything is a design token.
+ 4. Code is a feature. Code windows use one custom syntax theme that matches the
+    palette, and whenever code is shown, also show WHAT IT RETURNS (a Run button
+    with a response panel, or an inline output).
+ 5. If something is called a "notebook", it is a real Jupyter-style notebook:
+    several cells, NO "In [ ] / Out [ ]" labels, a ▶ run dot that becomes a
+    spinner and then a ✓ with the run time, outputs inside the cell (tables,
+    metrics, plots, a live loss curve), "Run all" that auto-scrolls to the
+    running cell.
+ 6. Interactivity wherever it makes sense: things react to the cursor, clicks
+    and scroll. A small live demo beats a static picture.
+ 7. Honesty: no fake testimonials, clients or achievements. Copy matches my real
+    skill level. Demo numbers only inside obviously-demo widgets.
+ 8. No instructional clutter. Never write "click the orb" on the page. The hero
+    description is ONE short sentence.
+ 9. Use the libraries below generously, each in the place where it shines, and
+    restyle every downloaded component to match the design.
+10. Generate imagery with an image model (Codex CLI / ChatGPT images): logo,
+    project covers, section objects, hero atmosphere. One consistent style, no
+    text inside images, transparent PNGs for objects on coloured cards,
+    compressed to WebP/JPEG afterwards.
+11. A real logo (generated emblem that still reads at 32px) in the nav, footer
+    and as the favicon (src/app/icon.png + src/app/apple-icon.png).
+12. Use Git from the first minute. Commit after every meaningful change so any
+    experiment can be rolled back.
+
+
+--------------------------------------------------------------------------------
+2. STACK & SETUP
+--------------------------------------------------------------------------------
+Next.js (App Router) + React + Tailwind CSS v4 + TypeScript, shadcn registries.
+
+  npx create-next-app@latest <folder> --ts --tailwind --eslint --app --src-dir \
+      --import-alias "@/*" --use-npm --turbopack
+  cd <folder>
+  git init
+  npx shadcn@latest init -d -y
+  npm install motion clsx tailwind-merge lucide-react
+
+src/lib/utils.ts:
+  import { ClassValue, clsx } from "clsx";
+  import { twMerge } from "tailwind-merge";
+  export function cn(...inputs: ClassValue[]) { return twMerge(clsx(inputs)); }
+
+components.json -> "registries":
+  "@obsidian":  "https://www.obsidianui.dev/r/{name}.json"
+  "@skiper-ui": "https://skiper-ui.com/registry/{name}.json"
+  "@fancy":     "https://fancycomponents.dev/r/{name}.json"
+
+Optional registry MCP: npx shadcn@latest mcp init
+
+
+--------------------------------------------------------------------------------
+3. EVERY PACKAGE & COMMAND
+--------------------------------------------------------------------------------
+  # Libraries.dev agent skill — the docs for the effect libraries.
+  # READ THE REFERENCE FOR A LIBRARY BEFORE WRITING ANY CODE WITH IT.
+  npx skills add Jakubantalik/Libraries.dev
+
+  # Libraries.dev effect libraries
+  npm install bot-avatars         # plush / plastic bot characters
+  npm install metal-fx            # real-time WebGL2 liquid metal
+  npm install img-fx three        # WebGL image-generation reveal (three is a peer dep)
+  npm install liquid-gooey        # gooey morph / move / bend / melt
+  npm install border-beam         # travelling beams and pulse glows on borders
+  npm install thinking-orbs       # dotted AI "thinking" orbs
+  npm install voice-glow          # (optional) voice/mic glow — only if the site has voice
+
+  # Brand icons — 6,500+ logos:   import python from "thesvg/python"
+  npm i thesvg
+
+  # Smooth scroll, syntax highlighting, 3D
+  npm install lenis shiki three
+  npm install -D @types/three
+
+  # Skiper UI — link hovers (skiper-ui.com)
+  npx shadcn add @skiper-ui/skiper40
+
+  # OriginKit — 651 WebGL/canvas components. I log in myself first:
+  npx originkit login
+  npx originkit add <components>
+
+  # Fancy components — https://github.com/danielpetho/fancy (fancycomponents.dev)
+  npx shadcn@latest add @fancy/vertical-cut-reveal @fancy/text-rotate \
+    @fancy/typewriter @fancy/scramble-hover @fancy/letter-swap-forward-anim \
+    @fancy/breathing-text @fancy/stacking-cards @fancy/marquee-along-svg-path \
+    @fancy/image-trail @fancy/float
+
+  # Obsidian UI picks
+  npx shadcn@latest add @obsidian/interactive-hover-button @obsidian/flip-text \
+    @obsidian/draggable-marquee
+
+Also allowed: 21st.dev, Aceternity UI, Magic UI, React Bits, Animate UI,
+Hover.dev, Lightswind.
+
+Images from the terminal (Codex CLI — use workspace-write, there is no --full-auto):
+  codex exec --skip-git-repo-check -s workspace-write -C <dir> \
+    "Use your built-in image generation tool (never draw with code). <description>.
+     Transparent background PNG. No text. Save to <file>.png"
+  Then: cwebp -q 82 file.png -o file.webp   (and delete the big PNG)
+
+
+--------------------------------------------------------------------------------
+4. LIBRARY PLAYBOOK — HOW TO USE EACH ONE AT ITS BEST
+--------------------------------------------------------------------------------
+GLOBAL RULES FOR ALL LIBRARIES.DEV PACKAGES
+  - Read the library's reference in the skill before coding. Never guess a prop.
+  - They are client components: import them only from "use client" files, and
+    load the WebGL/canvas ones with next/dynamic({ ssr: false }) or behind a
+    mounted gate (avoids hydration mismatches).
+  - Lazy-load heavy ones in their own chunk and mount them only when near the
+    viewport (IntersectionObserver), ideally during browser idle time.
+  - NEVER stack two effects on one element or right next to each other. Beam,
+    metal, gooey and orbs each own their own area of the page.
+  - Each library in one or two STRONG spots, not sprinkled everywhere.
+  - Respect prefers-reduced-motion (several libraries do NOT do it for you —
+    see each section).
+
+4.1 border-beam  — light travelling around a border, or a breathing glow
+  Where it shines:
+    - The ONE primary button of the site: size="pulse-inner" (glow breathes
+      inside). Use the same button component in the nav and the hero.
+    - A highlighted input (email, ask box): size="pulse-outside".
+    - Something actually working for >3 s (AI answer streaming, form sending):
+      size="md" (or "line" under a search box) with active={isLoading}.
+  Props: size "md" | "line" | "sm" | "pulse-inner" | "pulse-outside";
+         colorVariant "colorful" | "mono" | "ocean" | "sunset";
+         active (bool); strength 0–1; theme "dark" | "light" (pin it).
+  Pitfalls:
+    - The wrapper is a block div — put it in flex/grid or give it
+      width: fit-content, or the beam draws around the full row.
+    - Corner radius is read from the FIRST CHILD; put the rounded element
+      directly inside.
+    - Most types clip (overflow hidden): shadows/dropdowns on the child get cut;
+      put shadows on the wrapper.
+    - pulse-outside needs an opaque child with a 1px border and non-clipping
+      parents.
+    - Rotating types ignore reduced motion — set active={false} yourself.
+    - Max a handful live per screen; never on every row of a list.
+    - Static emphasis that never changes state? Use a plain gradient border.
+
+4.2 thinking-orbs  — dotted orbs that say "an agent is busy"
+  Where it shines:
+    - Next to "Thinking…" in an AI chat/FAQ before the answer streams.
+    - A status chip ("Open to new work", "Searching…") at size 20.
+    - Replacing every generic spinner / three-dot typing indicator.
+  States (pick the one that names the activity): working, searching, solving,
+    listening, connecting, composing, breathing (idle thinking), weaving
+    (planning), shaping (designing).
+  Props: state; size 64 | 20 ONLY (never scale with CSS — it blurs);
+         theme "dark" | "light" (ALWAYS pin it); paused; gravity {sprite}.
+  Pitfalls: not for waits under 2 s; not as a hero visual; one orb per active
+    step; unmount or pause it when the work is done; there is no "dark" prop.
+
+4.3 liquid-gooey  — pieces that merge, trail, bend and melt like liquid
+  Effects: morph (speed-dial "+" that splits into bubbles), move (slider/tab
+    indicator with a droplet tail), bend (dragged card bows), melt (two images
+    run molten into each other on hover/drag).
+  Where it shines: a "+" quick-links menu in the contact section; a tab
+    indicator; a before/after melt on a project card.
+  Props: <Liquid blur={6} contrast={18} fill="#..." shadow="...">;
+    <Liquid.Item effect x y transition="snappy|smooth|bouncy" delay>.
+  Rule of thumb: neighbours bridge when blur ≈ the gap between them.
+  Pitfalls: items must have TRANSPARENT backgrounds (the liquid is the surface);
+    size the <Liquid> group to the full OPEN footprint; don't put transforms on
+    a morph item's wrapper (the library owns x/y); backdrops under the liquid
+    need z-index -2; melt pairs only the first two items, each with an <img>.
+    WebKit runs the filter on the CPU — few groups per page.
+
+4.4 bot-avatars  — plush or glossy bot characters
+  Where it shines: an "agents" section where each bot has a name, a role,
+    changing idle thoughts and speech-bubble quips on hover/click; the avatar
+    beside AI answers in a chat/FAQ (working while streaming).
+  Props: type clover|flower|star|ghost|mech|circle|hexagon|square (one per
+    agent); state "default" | "working"; size 96|64|32 (set by prop, NEVER CSS);
+    shading "fabric" (plush, default) | "plastic"; paused.
+  Pitfalls: leave room ABOVE the avatar — hops overflow its box and a parent
+    with overflow hidden crops them; drive state from a real status, not a
+    timer; state changes cross-fade so toggling per token is safe; pause them
+    while the page is scrolling (each is a live canvas).
+
+4.5 metal-fx  — real-time WebGL2 liquid metal
+  Where it shines (pick ONE or TWO): the single selling CTA (e.g. the contact
+    form "Send" button) with useMetalBend for a cursor dent; a "New" badge in
+    the nav (<MetalBadge>New</MetalBadge>); one key headline word (<MetalText>).
+  Props: <MetalFx variant="button"|"circle" preset="chromatic"|"silver"|"gold"
+    theme="dark" strength innerShadow reflectionTargets disableGlow paused>;
+    <MetalText font="600 64px/1 'Clash Display'" color="#E2E2E2">;
+    useMetalBend(ref); useMetalTextReflection(ref).
+  Pitfalls: ONE preset per page (all instances share one renderer); memoise
+    reflectionTargets arrays; style the fill on <MetalFx style={{background}}>,
+    not on the child; it ignores reduced motion — pass paused/disableGlow;
+    MetalText needs a fixed px font (not responsive clamp) so size it per
+    breakpoint; set reactStrictMode: false (double mount freezes the renderer);
+    reflections only render in dark theme.
+
+4.6 img-fx  — images that resolve out of a living pixel shader
+  Where it shines: project/work covers that "generate" in as they scroll into
+    view; a regenerate interaction on a card; anything selling "AI makes this".
+  Props: preset "pixels-organic" | "pixels-mechanic" | "sweep-gradient";
+    images (array); autoReveal; strength; paused.
+    Ref: triggerReveal({hold:"manual"}), triggerHide(), triggerRegenerate().
+  Best pattern: mount when near the viewport, then
+    triggerReveal({ hold: "manual" }) so the cover stays.
+  Pitfalls: the child needs an explicit width/height; install three; serve
+    images same-origin; one radius for all corners; don't use it as ordinary
+    lazy-loading on every image.
+
+4.7 voice-glow  (optional) — only if the site really has voice/mic input.
+  <VoiceBeam stream={mic.stream} processing={thinking}> around one element with
+  its own radius; start the mic only from a click; stop it when done.
+
+4.8 Fancy components (fancycomponents.dev) — the motion vocabulary
+  - vertical-cut-reveal: hero headline, character by character, spring delay
+    per line. Use elementLevelClassName to style letters (e.g. a gradient sheen).
+  - text-rotate: the rotating word in a coloured pill ("built to ship./scale./
+    serve./last."), staggerFrom="last", spring transition.
+  - typewriter / scramble-hover / letter-swap-forward-anim / flip-text: small
+    labels, nav links, buttons — never long paragraphs.
+  - breathing-text: a giant variable-font footer wordmark.
+  - stacking-cards: a "process" section; title at the top of each card so it
+    stays visible while cards stack.
+  - image-trail: a large toolbox stage where bare brand icons spill behind the
+    cursor (wrap each child in ImageTrailItem, keyed). Touch devices get a
+    floating icon cloud instead.
+  - marquee-along-svg-path: a curved tech marquee (give it a fixed pathId).
+  - float: gentle idle float for objects on cards.
+  - Worth exploring: Gravity (physics icons/letters you can throw), Text Cursor
+    Proximity, Letter 3D Swap, Elastic Line.
+
+4.9 Skiper UI — skiper40 link hovers
+  Use its Link00x components for nav links, footer links and "see the work"
+  links. Pick ONE hover style and use it everywhere.
+
+4.10 OriginKit — 651 WebGL/canvas components (needs `npx originkit login`)
+  Browse for backgrounds and atmospheres (dither globes, ribbons, noise fields).
+  Use at most one heavy OriginKit canvas per screen.
+
+4.11 thesvg — brand icons
+  import python from "thesvg/python". Generate a typed icon map with a small
+  script. Scope SVG ids per instance (useId), strip hard-coded fills before
+  tinting, tint white/black-only marks so they show on dark backgrounds.
+
+4.12 Lenis — weighted smooth scroll
+  new Lenis({ lerp: 0.075–0.09 }), one instance at the root. Scrollable inner
+  panels (notebook, chat) get data-lenis-prevent.
+
+4.13 Shiki — server-side syntax highlighting
+  Custom theme in the brand palette; wrap codeToHtml in an async function with
+  "use cache"; render the HTML in client code windows.
+
+4.14 three.js — the hero centrepiece (the approved recipe)
+  A single GLOWING ORB, nothing around it:
+    - Icosahedron (detail 40 desktop / 22 phone) with a ShaderMaterial: simplex
+      noise displacement in the vertex shader, fresnel rim in the fragment
+      shader mixing primary A and primary B, a dim warm interior, a cream
+      highlight at the very edge.
+    - An "atmosphere": a slightly bigger BackSide sphere, additive blending,
+      premultipliedAlpha: true, alpha = brightness, so it glows into the room.
+    - Follows the cursor softly, wobbles with pointer speed, pulses on click.
+    - Behind it, a painted ATMOSPHERE IMAGE generated by Codex (e.g. a smoky
+      eclipse arc in the two primaries with an empty hollow). Put the <img>
+      INSIDE the orb's wrapper and position it so its hollow is centred on the
+      orb (alignment then holds at every size), feather it with a radial CSS
+      mask, and let it breathe very slowly (scale/rotate over ~14 s).
+    - DPR capped, IntersectionObserver + visibilitychange pause, lighter
+      geometry on phones, dim the orb on phones so the copy stays readable.
+
+
+--------------------------------------------------------------------------------
+5. TASTE RULES (learned the hard way — these decide "premium" vs "cheap")
+--------------------------------------------------------------------------------
+  - Premium = FEWER things, SLOWER motion, BETTER materials, MORE empty space.
+  - One luminous hero object + a painted atmosphere beats any clever 3D gadget.
+  - Many small moving labels/particles ("shouting" request streams, floating
+    chips, data confetti) read as CHEAP. Don't.
+  - No cards or UI chrome floating around the hero object.
+  - Abstract 3D sculptures (knots, slabs, pearls) read as "strange" for a
+    personal portfolio — avoid unless asked.
+  - Light from the sides and top; a front-facing light makes a cheap square
+    highlight on glossy surfaces.
+  - Rich colour comes from the two primaries as LIGHT (glows, rims, sheens),
+    not as big flat fills.
+  - Before a big visual change: show it, commit it, and keep the previous
+    commit so it can be rolled back instantly.
+
+
+--------------------------------------------------------------------------------
+6. DESIGN SYSTEM (proven — reuse or adapt to my colours)
+--------------------------------------------------------------------------------
+  ink / ink-2 / ink-3   #0d0c0a  #161411  #211e1a   page, dark cards
+  cream / cream-2       #f3ede1  #e9e1d0            light rooms, text on dark
+  primary A (ember)     #ff5b23                     energy, CTAs
+  primary B (iris)      #7d6bff                     intelligence, accents
+
+  Type: Clash Display (headings) + General Sans (body), both from Fontshare and
+  SELF-HOSTED in public/fonts with @font-face. Instrument Serif italic for a
+  single accent word. JetBrains Mono for code and eyebrow labels.
+
+  Layout: cream sections float as big rounded "rooms" (radius ~3.5rem) on the
+  ink page; cards 2–2.8rem radii; pills everywhere. Film grain ~7%. Hero glow =
+  soft radial gradients (never CSS blur on big layers). Reveal on scroll:
+  opacity + rise only, ease [0.16, 1, 0.3, 1].
+
+  One primary button component used everywhere (cream pill + border-beam
+  pulse-inner). No magnetic or draggable CTAs.
+
+
+--------------------------------------------------------------------------------
+7. SECTION RECIPE (adapt to my content)
+--------------------------------------------------------------------------------
+ 1. Floating pill nav: logo, Skiper hover links, Metal "New" badge, a
+    thinking-orb status chip, the primary button. Hides on scroll down.
+ 2. Hero: copy on the left (owner/role eyebrow, vertical-cut-reveal headline
+    with one serif accent word and a text-rotate word in a primary pill, one
+    sentence, primary button + ghost button, "daily stack" mono icons). The
+    glowing orb + eclipse atmosphere on the right (see 4.14). Below: a code or
+    notebook window that tilts flat as you scroll and runs itself once.
+ 3. Services bento: every card has a LIVE visual (animated architecture SVG,
+    a real algorithm on canvas, a live event table with fixed height, latency
+    bars, release checklist).
+ 4. Toolbox: large Fancy image-trail of bare brand icons (no cards/labels).
+ 5. Scroll-pinned pipeline: timeline left (line passes through the centre of
+    every step circle), code window right that switches files, Run button +
+    response panel; one step is a real notebook; the last step slides a
+    browser preview of the UI.
+ 6. FAQ chat: question chips + a chat window; thinking orb, then the answer
+    streams word by word next to a bot avatar, border-beam on the input while
+    answering; typed questions keyword-matched, unknown ones point to contact.
+ 7. Agents with personality (bot-avatars).
+ 8. Selected work: Codex covers revealed with img-fx; facts, stack icons, code link.
+ 9. Process: stacking cards in alternating primaries, each with a transparent
+    3D object floating on the card colour.
+10. Contact: big statement; real email form (Web3Forms — I create the key
+    myself); LinkedIn + GitHub cards; copy-email row; gooey "+" quick links;
+    metal-fx Send button.
+11. Footer: logo, links, local time, giant breathing wordmark.
+
+Keep ALL personal data (name, email, links, form key, feature flags) in ONE
+config file (src/lib/site.ts).
+
+
+--------------------------------------------------------------------------------
+8. PERFORMANCE RULES (smooth on slow machines without giving up the motion)
+--------------------------------------------------------------------------------
+  - Animate only opacity and transform. Radial gradients instead of blur().
+  - Every canvas/WebGL loop pauses offscreen (IntersectionObserver), when the
+    tab is hidden, and — for non-essential ones — while the page is scrolling.
+  - Heavy libraries load lazily in their own chunk (next/dynamic, ssr false)
+    and mount near the viewport / on idle.
+  - Cap devicePixelRatio (1.5–2), lighter geometry on phones.
+  - Keep tabbed views mounted and cross-fade them instead of remounting.
+    Use startTransition + memo for heavy state changes.
+  - Judge on the PRODUCTION build (next build && next start), including 4x CPU
+    throttling. Target 60 fps; Lighthouse a11y/best-practices/SEO 100.
+
+
+--------------------------------------------------------------------------------
+9. KNOWN BUGS — ALREADY SOLVED, DON'T REDISCOVER THEM
+--------------------------------------------------------------------------------
+  - The Turbopack Tailwind loader breaks next/font/google: self-host fonts with
+    @font-face or load them with <link>.
+  - cacheComponents: no Math.random()/new Date() during render — move into
+    effects; give Fancy's marquee a fixed pathId.
+  - thesvg inline SVGs share gradient ids; a hidden copy blanks the others.
+    Scope ids per instance (useId).
+  - Live lists that add/remove rows need a fixed height +
+    AnimatePresence mode="popLayout", or neighbouring cards grow.
+  - Grid columns with code/long text need min-w-0 (mobile overflow).
+  - three.js transmission/glass on a transparent canvas looks milky — give the
+    scene a background colour and feather the canvas with a CSS mask.
+  - Additive shaders on an alpha canvas paint a black disc unless they write
+    premultiplied alpha (alpha = brightness, premultipliedAlpha: true).
+  - Dev shows stale CSS? rm -rf .next/dev and restart next dev.
+  - Next.js 16: read node_modules/next/dist/docs/ before an unfamiliar API.
+  - Codex CLI: use -s workspace-write (no --full-auto); macOS has no `timeout`.
+
+
+--------------------------------------------------------------------------------
+10. PROCESS & QUALITY BAR
+--------------------------------------------------------------------------------
+ 1. Before coding, explain the plan in a few sentences and give a rough time.
+ 2. Build section by section; run `npx tsc --noEmit` often; commit often.
+ 3. LOOK at it in a real browser (Playwright / DevTools) at 1440x900 and
+    390x844: every section and every interaction. Nothing scrolls horizontally.
+ 4. When I ask for ideas, propose them FIRST and wait — don't change anything
+    until I pick. When I say "go wild", build it, show it, and keep a rollback.
+ 5. Finish with `next build` passing. Report honestly what's real, what's a
+    placeholder and what you need from me. Stop dev servers when not in use.
+ 6. NEVER ask for or handle my passwords or 2FA codes. I sign in to third-party
+    services myself and paste back only public keys.
+================================================================================
