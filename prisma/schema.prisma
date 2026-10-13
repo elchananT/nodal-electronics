@@ -1,0 +1,81 @@
+// Nodal demo store schema. Money is stored as integer cents.
+// Lists (specs, highlights, images) are stored as JSON strings because SQLite has no scalar lists.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  slug      String    @unique
+  name      String
+  sortOrder Int       @default(0)
+  products  Product[]
+}
+
+model Product {
+  id             String      @id @default(cuid())
+  slug           String      @unique
+  name           String
+  tagline        String
+  categoryId     Int
+  category       Category    @relation(fields: [categoryId], references: [id])
+  priceCents     Int
+  compareAtCents Int?
+  stock          Int
+  featured       Boolean     @default(false)
+  badge          String?
+  images         String
+  specs          String
+  highlights     String
+  batteryHours   Float?
+  weightGrams    Int?
+  description    String
+  createdAt      DateTime    @default(now())
+  orderLines     OrderLine[]
+
+  @@index([categoryId])
+  @@index([priceCents])
+  @@index([featured])
+  @@index([createdAt])
+}
+
+model Order {
+  id             String      @id
+  status         String      @default("placed")
+  customerName   String
+  customerEmail  String
+  shipLine1      String
+  shipLine2      String?
+  shipCity       String
+  shipRegion     String
+  shipPostalCode String
+  shipCountry    String
+  method         String
+  shippingCents  Int
+  subtotalCents  Int
+  totalCents     Int
+  createdAt      DateTime    @default(now())
+  lines          OrderLine[]
+
+  @@index([createdAt])
+}
+
+model OrderLine {
+  id             Int     @id @default(autoincrement())
+  orderId        String
+  order          Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId      String
+  product        Product @relation(fields: [productId], references: [id])
+  productName    String
+  unitPriceCents Int
+  quantity       Int
+
+  @@index([orderId])
+  @@index([productId])
+}
