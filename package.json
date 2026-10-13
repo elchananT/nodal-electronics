@@ -6,7 +6,9 @@
     "dev": "next dev -p 3103",
     "build": "next build",
     "start": "next start -p 3103",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "tsx --env-file=.env prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
